@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "interactive-map-listings/map",
+	"version": "1.0.0",
+	"title": "Interactive Map",
+	"category": "widgets",
+	"icon": "location-alt",
+	"description": "Display an interactive map with all logement listings.",
+	"keywords": [ "map", "logement", "listing", "leaflet", "carte" ],
+	"textdomain": "interactive-map-listings",
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"multiple": false
+	},
+	"attributes": {
+		"zoom": {
+			"type": "number",
+			"default": 0
+		},
+		"centerLat": {
+			"type": "number",
+			"default": 0
+		},
+		"centerLng": {
+			"type": "number",
+			"default": 0
+		},
+		"mapHeight": {
+			"type": "number",
+			"default": 500
+		},
+		"markerColor": {
+			"type": "string",
+			"default": ""
+		},
+		"cardBgColor": {
+			"type": "string",
+			"default": ""
+		},
+		"cardTextColor": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonColor": {
+			"type": "string",
+			"default": ""
+		},
+		"buttonTextColor": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php",
+	"viewScript": [ "iml-frontend-map" ],
+	"viewStyle": [ "iml-frontend-map" ]
+}
