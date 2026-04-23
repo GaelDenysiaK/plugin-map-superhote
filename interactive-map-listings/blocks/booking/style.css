@@ -1,9 +1,28 @@
 .wp-block-interactive-map-listings-booking {
 	width: 100%;
+	box-sizing: border-box;
+	/* overflow:hidden clips the iframe to the wrapper's border-radius */
+	overflow: hidden;
 }
 
-.iml-booking-single iframe {
+.wp-block-interactive-map-listings-booking .iml-booking-single {
+	width: 100%;
+}
+
+.wp-block-interactive-map-listings-booking iframe {
 	display: block;
 	width: 100%;
 	border: none;
+	/*
+	 * The iframe content is served by Superhote and cannot inherit CSS.
+	 * color-scheme:inherit ensures the browser uses the page's scheme
+	 * for the iframe chrome (scrollbars, etc.).
+	 */
+	color-scheme: inherit;
+}
+
+/* Admin notice — uses theme text color when set via block supports */
+.wp-block-interactive-map-listings-booking [style*="padding"] {
+	font-family: inherit;
+	font-size: inherit;
 }

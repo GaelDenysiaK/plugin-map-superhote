@@ -1,9 +1,23 @@
 .wp-block-interactive-map-listings-booking-group {
 	width: 100%;
+	box-sizing: border-box;
+	/* overflow:hidden clips the iframe to the wrapper's border-radius */
+	overflow: hidden;
 }
 
-.iml-booking-group iframe {
+.wp-block-interactive-map-listings-booking-group .iml-booking-group {
+	width: 100%;
+}
+
+.wp-block-interactive-map-listings-booking-group iframe {
 	display: block;
 	width: 100%;
 	border: none;
+	color-scheme: inherit;
+}
+
+/* Admin notice — uses theme text color when set via block supports */
+.wp-block-interactive-map-listings-booking-group [style*="padding"] {
+	font-family: inherit;
+	font-size: inherit;
 }
