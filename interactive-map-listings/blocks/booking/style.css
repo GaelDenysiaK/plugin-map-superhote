@@ -1,0 +1,9 @@
+.wp-block-interactive-map-listings-booking {
+	width: 100%;
+}
+
+.iml-booking-single iframe {
+	display: block;
+	width: 100%;
+	border: none;
+}

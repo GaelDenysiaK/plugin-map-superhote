@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "interactive-map-listings/booking",
+	"version": "1.0.0",
+	"title": "Moteur de réservation (logement)",
+	"category": "widgets",
+	"icon": "calendar-alt",
+	"description": "Affiche le moteur de réservation Superhote pour un logement. Utilise automatiquement la propertykey du logement courant dans le FSE.",
+	"keywords": [ "booking", "superhote", "reservation", "logement", "iframe" ],
+	"textdomain": "interactive-map-listings",
+	"usesContext": [ "postId", "postType" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"propertyKeyOverride": {
+			"type": "string",
+			"default": ""
+		},
+		"height": {
+			"type": "number",
+			"default": 3879
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

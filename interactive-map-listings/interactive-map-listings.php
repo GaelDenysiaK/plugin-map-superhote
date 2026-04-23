@@ -68,8 +68,10 @@ add_action( 'init', function () {
 		true
 	);
 
-	// Register the Gutenberg block.
+	// Register the Gutenberg blocks.
 	register_block_type( IML_PLUGIN_DIR . 'blocks/map' );
+	register_block_type( IML_PLUGIN_DIR . 'blocks/booking' );
+	register_block_type( IML_PLUGIN_DIR . 'blocks/booking-group' );
 } );
 
 /**
@@ -87,6 +89,29 @@ add_action( 'init', function () {
 			'description' => __( 'A full-width interactive map displaying all logements.', 'interactive-map-listings' ),
 			'categories'  => array( 'interactive-map-listings' ),
 			'content'     => '<!-- wp:interactive-map-listings/map {"align":"full","mapHeight":600} /-->',
+		)
+	);
+
+	// Pattern: single logement page (map + booking engine).
+	register_block_pattern(
+		'interactive-map-listings/single-logement',
+		array(
+			'title'       => __( 'Page logement avec réservation', 'interactive-map-listings' ),
+			'description' => __( 'Template type pour un logement : titre, image, description et moteur de réservation Superhote.', 'interactive-map-listings' ),
+			'categories'  => array( 'interactive-map-listings' ),
+			'postTypes'   => array( 'logement' ),
+			'content'     => '<!-- wp:post-featured-image {"align":"wide"} /--><!-- wp:post-title {"level":1} /--><!-- wp:interactive-map-listings/booking {"align":"wide"} /-->',
+		)
+	);
+
+	// Pattern: group booking engine.
+	register_block_pattern(
+		'interactive-map-listings/group-booking',
+		array(
+			'title'       => __( 'Moteur de réservation groupe', 'interactive-map-listings' ),
+			'description' => __( 'Affiche tous les logements disponibles via le moteur Superhote (version avancée avec paramètres URL).', 'interactive-map-listings' ),
+			'categories'  => array( 'interactive-map-listings' ),
+			'content'     => '<!-- wp:interactive-map-listings/booking-group {"align":"full","advanced":true} /-->',
 		)
 	);
 } );

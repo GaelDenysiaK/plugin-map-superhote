@@ -36,6 +36,10 @@ class IML_Meta_Boxes {
 				'type'              => 'string',
 				'sanitize_callback' => 'esc_url_raw',
 			),
+			'_iml_superhote_property_key' => array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+			),
 		);
 
 		foreach ( $meta_fields as $key => $args ) {
@@ -78,11 +82,12 @@ class IML_Meta_Boxes {
 	public function render_meta_box( $post ) {
 		wp_nonce_field( 'iml_save_meta', 'iml_meta_nonce' );
 
-		$description = get_post_meta( $post->ID, '_iml_short_description', true );
-		$latitude    = get_post_meta( $post->ID, '_iml_latitude', true );
-		$longitude   = get_post_meta( $post->ID, '_iml_longitude', true );
-		$capacity    = get_post_meta( $post->ID, '_iml_capacity', true );
-		$action_url  = get_post_meta( $post->ID, '_iml_action_url', true );
+		$description   = get_post_meta( $post->ID, '_iml_short_description', true );
+		$latitude      = get_post_meta( $post->ID, '_iml_latitude', true );
+		$longitude     = get_post_meta( $post->ID, '_iml_longitude', true );
+		$capacity      = get_post_meta( $post->ID, '_iml_capacity', true );
+		$action_url    = get_post_meta( $post->ID, '_iml_action_url', true );
+		$property_key  = get_post_meta( $post->ID, '_iml_superhote_property_key', true );
 		?>
 		<table class="form-table">
 			<tr>
@@ -124,7 +129,18 @@ class IML_Meta_Boxes {
 				</th>
 				<td>
 					<input type="url" id="iml_action_url" name="iml_action_url" value="<?php echo esc_url( $action_url ); ?>" class="large-text" placeholder="https://example.com/reservation" />
-					<p class="description"><?php esc_html_e( 'Lien vers lequel le bouton d\'action redirige.', 'interactive-map-listings' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Lien vers lequel le bouton d\'action redirige. Si vide, renvoie vers la page du logement.', 'interactive-map-listings' ); ?></p>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<label for="iml_superhote_property_key"><?php esc_html_e( 'Clé Superhote (propertykey)', 'interactive-map-listings' ); ?></label>
+				</th>
+				<td>
+					<input type="text" id="iml_superhote_property_key" name="iml_superhote_property_key" value="<?php echo esc_attr( $property_key ); ?>" class="regular-text" placeholder="ex: abc123xyz" />
+					<p class="description">
+						<?php esc_html_e( 'Clé unique du logement dans Superhote. Utilisée par le bloc "Moteur de réservation (logement)" pour afficher l\'iframe de réservation sur la page du logement.', 'interactive-map-listings' ); ?>
+					</p>
 				</td>
 			</tr>
 		</table>
@@ -148,11 +164,12 @@ class IML_Meta_Boxes {
 		}
 
 		$fields = array(
-			'iml_short_description' => '_iml_short_description',
-			'iml_latitude'          => '_iml_latitude',
-			'iml_longitude'         => '_iml_longitude',
-			'iml_capacity'          => '_iml_capacity',
-			'iml_action_url'        => '_iml_action_url',
+			'iml_short_description'      => '_iml_short_description',
+			'iml_latitude'               => '_iml_latitude',
+			'iml_longitude'              => '_iml_longitude',
+			'iml_capacity'               => '_iml_capacity',
+			'iml_action_url'             => '_iml_action_url',
+			'iml_superhote_property_key' => '_iml_superhote_property_key',
 		);
 
 		foreach ( $fields as $form_key => $meta_key ) {
@@ -172,6 +189,9 @@ class IML_Meta_Boxes {
 						break;
 					case '_iml_action_url':
 						$value = esc_url_raw( $value );
+						break;
+					case '_iml_superhote_property_key':
+						$value = sanitize_text_field( $value );
 						break;
 				}
 

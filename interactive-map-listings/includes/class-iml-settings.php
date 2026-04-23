@@ -17,15 +17,16 @@ class IML_Settings {
 	 */
 	public static function get_defaults() {
 		return array(
-			'marker_color'    => '#E74C3C',
-			'card_bg_color'   => '#FFFFFF',
-			'card_text_color' => '#333333',
-			'button_color'    => '#3498DB',
-			'button_text_color' => '#FFFFFF',
-			'default_lat'     => 46.603354,
-			'default_lng'     => 1.888334,
-			'default_zoom'    => 6,
-			'button_label'    => 'Voir le logement',
+			'marker_color'       => '#E74C3C',
+			'card_bg_color'      => '#FFFFFF',
+			'card_text_color'    => '#333333',
+			'button_color'       => '#3498DB',
+			'button_text_color'  => '#FFFFFF',
+			'default_lat'        => 46.603354,
+			'default_lng'        => 1.888334,
+			'default_zoom'       => 6,
+			'button_label'       => 'Voir le logement',
+			'superhote_web_key'  => '',
 		);
 	}
 
@@ -126,6 +127,25 @@ class IML_Settings {
 			'iml_map_defaults',
 			array( 'field' => 'button_label', 'placeholder' => 'Voir le logement' )
 		);
+
+		// Superhote section.
+		add_settings_section(
+			'iml_superhote',
+			__( 'Superhote — Moteur de réservation', 'interactive-map-listings' ),
+			function () {
+				echo '<p>' . esc_html__( 'Clé commune à tous vos logements, utilisée par le bloc "Moteur de réservation (groupe)". Trouvez-la dans votre interface Superhote.', 'interactive-map-listings' ) . '</p>';
+			},
+			'iml-settings'
+		);
+
+		add_settings_field(
+			'superhote_web_key',
+			__( 'Webkey (groupe)', 'interactive-map-listings' ),
+			array( $this, 'render_text_field' ),
+			'iml-settings',
+			'iml_superhote',
+			array( 'field' => 'superhote_web_key', 'placeholder' => 'ex: abc123xyz' )
+		);
 	}
 
 	/**
@@ -206,6 +226,7 @@ class IML_Settings {
 		$sanitized['default_lng']       = is_numeric( $input['default_lng'] ?? '' ) ? (float) $input['default_lng'] : $defaults['default_lng'];
 		$sanitized['default_zoom']      = isset( $input['default_zoom'] ) ? absint( $input['default_zoom'] ) : $defaults['default_zoom'];
 		$sanitized['button_label']      = sanitize_text_field( $input['button_label'] ?? $defaults['button_label'] );
+		$sanitized['superhote_web_key'] = sanitize_text_field( $input['superhote_web_key'] ?? '' );
 
 		// Clamp zoom.
 		if ( $sanitized['default_zoom'] < 1 ) {

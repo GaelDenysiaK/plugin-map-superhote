@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "interactive-map-listings/booking-group",
+	"version": "1.0.0",
+	"title": "Moteur de réservation (groupe)",
+	"category": "widgets",
+	"icon": "calendar-alt",
+	"description": "Affiche le moteur de réservation Superhote pour tous les logements du groupe. Supporte le forwarding des paramètres URL (checkin, checkout, adultes…).",
+	"keywords": [ "booking", "superhote", "reservation", "groupe", "iframe" ],
+	"textdomain": "interactive-map-listings",
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"webKeyOverride": {
+			"type": "string",
+			"default": ""
+		},
+		"height": {
+			"type": "number",
+			"default": 5500
+		},
+		"advanced": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}
