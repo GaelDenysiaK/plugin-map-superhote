@@ -59,6 +59,12 @@ class IML_Rest_API {
 				$tag_names = wp_list_pluck( $terms, 'name' );
 			}
 
+			// Use custom action URL if set, otherwise fall back to the single post permalink.
+			$action_url = get_post_meta( $post->ID, '_iml_action_url', true );
+			if ( empty( $action_url ) ) {
+				$action_url = get_permalink( $post->ID );
+			}
+
 			$logements[] = array(
 				'id'                => $post->ID,
 				'title'             => get_the_title( $post ),
@@ -68,7 +74,7 @@ class IML_Rest_API {
 				'capacity'          => (int) get_post_meta( $post->ID, '_iml_capacity', true ),
 				'tags'              => $tag_names,
 				'image_url'         => $image_url,
-				'action_url'        => (string) get_post_meta( $post->ID, '_iml_action_url', true ),
+				'action_url'        => $action_url,
 			);
 		}
 
