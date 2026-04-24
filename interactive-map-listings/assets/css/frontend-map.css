@@ -186,3 +186,215 @@
 		font-size: 14px;
 	}
 }
+
+/* ===== POI Markers ===== */
+.iml-poi-marker {
+	background: none !important;
+	border: none !important;
+}
+
+.iml-poi-marker svg {
+	filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+	transition: transform 0.15s ease;
+}
+
+.iml-poi-marker:hover svg {
+	transform: scale(1.3);
+}
+
+/* ===== Filter Control ===== */
+.iml-filter-control {
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+	min-width: 190px;
+	max-width: 220px;
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.iml-filter-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 9px 12px;
+	cursor: pointer;
+	user-select: none;
+	background: #f8f9fa;
+	border-bottom: 1px solid #e5e7eb;
+	font-weight: 700;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #374151;
+}
+
+.iml-filter-header:hover {
+	background: #f1f3f5;
+}
+
+.iml-filter-arrow {
+	font-size: 10px;
+	color: #9ca3af;
+	transition: transform 0.2s ease;
+	flex-shrink: 0;
+}
+
+.iml-filter-control.is-collapsed .iml-filter-arrow {
+	transform: rotate(-90deg);
+}
+
+.iml-filter-categories {
+	padding: 5px 0;
+}
+
+.iml-filter-control.is-collapsed .iml-filter-categories {
+	display: none;
+}
+
+.iml-filter-item {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px;
+	cursor: pointer;
+	color: #374151;
+	transition: background 0.1s;
+}
+
+.iml-filter-item:hover {
+	background: #f5f6f7;
+}
+
+.iml-filter-item input[type="checkbox"] {
+	margin: 0;
+	cursor: pointer;
+	flex-shrink: 0;
+	width: 14px;
+	height: 14px;
+}
+
+.iml-filter-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.iml-filter-name {
+	flex: 1;
+	font-size: 12px;
+	line-height: 1.3;
+}
+
+.iml-filter-item.is-hidden .iml-filter-name {
+	opacity: 0.4;
+}
+
+/* ===== POI Popup ===== */
+.iml-poi-popup .leaflet-popup-content-wrapper {
+	background: #fff;
+	border-radius: 10px;
+	box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+	padding: 0;
+	overflow: hidden;
+}
+
+.iml-poi-popup .leaflet-popup-content {
+	margin: 0;
+	width: 240px !important;
+	line-height: 1.5;
+}
+
+.iml-poi-popup .leaflet-popup-tip {
+	background: #fff;
+}
+
+.iml-poi-card {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.iml-poi-card__image {
+	width: 100%;
+	height: 110px;
+	overflow: hidden;
+}
+
+.iml-poi-card__image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.iml-poi-card__body {
+	padding: 10px 12px 12px;
+}
+
+.iml-poi-card__badge {
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #fff;
+	padding: 2px 8px;
+	border-radius: 99px;
+	margin-bottom: 6px;
+}
+
+.iml-poi-card__title {
+	font-size: 14px;
+	font-weight: 700;
+	margin: 0 0 5px;
+	color: #1a1a1a;
+	line-height: 1.3;
+}
+
+.iml-poi-card__desc {
+	font-size: 12px;
+	color: #555;
+	margin: 0 0 7px;
+	line-height: 1.45;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.iml-poi-card__address {
+	font-size: 11px;
+	color: #777;
+	margin: 0 0 7px;
+	line-height: 1.4;
+}
+
+.iml-poi-card__link {
+	display: inline-flex;
+	align-items: center;
+	font-size: 12px;
+	font-weight: 600;
+	color: #2563eb;
+	text-decoration: none;
+}
+
+.iml-poi-card__link:hover {
+	text-decoration: underline;
+}
+
+/* ===== Responsive (POI additions) ===== */
+@media (max-width: 480px) {
+	.iml-filter-control {
+		min-width: 170px;
+		max-width: 190px;
+		font-size: 12px;
+	}
+
+	.iml-poi-popup .leaflet-popup-content {
+		width: 210px !important;
+	}
+}

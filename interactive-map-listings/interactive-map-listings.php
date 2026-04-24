@@ -3,7 +3,7 @@
  * Plugin Name: Interactive Map Listings
  * Plugin URI:  https://example.com/interactive-map-listings
  * Description: Display an interactive Leaflet map with accommodation listings. Hover markers to see cards with photos, descriptions, capacity, tags, and action buttons. Fully compatible with the Full Site Editor.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      Gael
  * Text Domain: interactive-map-listings
  * Domain Path: /languages
@@ -17,19 +17,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'IML_VERSION', '1.0.0' );
+define( 'IML_VERSION', '1.1.0' );
 define( 'IML_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'IML_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // Include classes.
 require_once IML_PLUGIN_DIR . 'includes/class-iml-post-type.php';
+require_once IML_PLUGIN_DIR . 'includes/class-iml-poi-post-type.php';
 require_once IML_PLUGIN_DIR . 'includes/class-iml-meta-boxes.php';
+require_once IML_PLUGIN_DIR . 'includes/class-iml-poi-meta-boxes.php';
 require_once IML_PLUGIN_DIR . 'includes/class-iml-settings.php';
 require_once IML_PLUGIN_DIR . 'includes/class-iml-rest-api.php';
 
 // Initialize classes.
 new IML_Post_Type();
+new IML_POI_Post_Type();
 new IML_Meta_Boxes();
+new IML_POI_Meta_Boxes();
 new IML_Settings();
 new IML_Rest_API();
 

@@ -28,6 +28,8 @@ $card_text_color = ! empty( $attributes['cardTextColor'] )  ? $attributes['cardT
 $button_color    = ! empty( $attributes['buttonColor'] )    ? $attributes['buttonColor']    : $settings['button_color'];
 $button_text_color = ! empty( $attributes['buttonTextColor'] ) ? $attributes['buttonTextColor'] : $settings['button_text_color'];
 
+$show_pois = isset( $attributes['showPois'] ) ? (bool) $attributes['showPois'] : true;
+
 // Build config for JS.
 $map_config = array(
 	'zoom'            => $zoom,
@@ -40,6 +42,7 @@ $map_config = array(
 	'cardTextColor'   => sanitize_hex_color( $card_text_color ),
 	'buttonColor'     => sanitize_hex_color( $button_color ),
 	'buttonTextColor' => sanitize_hex_color( $button_text_color ),
+	'poisUrl'         => $show_pois ? esc_url_raw( rest_url( 'iml/v1/pois' ) ) : null,
 );
 
 $unique_id = 'iml-map-' . wp_unique_id();

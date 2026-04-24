@@ -50,6 +50,10 @@
 		"buttonTextColor": {
 			"type": "string",
 			"default": ""
+		},
+		"showPois": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"editorScript": "file:./index.js",

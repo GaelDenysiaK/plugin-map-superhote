@@ -10,12 +10,18 @@ class IML_Rest_API {
 	}
 
 	/**
-	 * Register the custom REST route.
+	 * Register custom REST routes.
 	 */
 	public function register_routes() {
 		register_rest_route( 'iml/v1', '/logements', array(
 			'methods'             => 'GET',
 			'callback'            => array( $this, 'get_logements' ),
+			'permission_callback' => '__return_true',
+		) );
+
+		register_rest_route( 'iml/v1', '/pois', array(
+			'methods'             => 'GET',
+			'callback'            => array( $this, 'get_pois' ),
 			'permission_callback' => '__return_true',
 		) );
 	}
@@ -83,6 +89,88 @@ class IML_Rest_API {
 			'settings'  => array(
 				'button_label' => $settings['button_label'],
 			),
+		), 200 );
+	}
+
+	/**
+	 * Return all published POIs with map-optimized data.
+	 */
+	public function get_pois( $request ) {
+		$settings     = wp_parse_args( get_option( 'iml_settings', array() ), IML_Settings::get_defaults() );
+		$defaults     = IML_Settings::get_defaults();
+		$slug_to_key  = IML_POI_Post_Type::get_slug_to_color_key();
+
+		$query = new WP_Query( array(
+			'post_type'      => 'poi',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'no_found_rows'  => true,
+		) );
+
+		$pois            = array();
+		$categories_used = array();
+
+		foreach ( $query->posts as $post ) {
+			$lat = get_post_meta( $post->ID, '_iml_poi_latitude', true );
+			$lng = get_post_meta( $post->ID, '_iml_poi_longitude', true );
+
+			// Skip POIs without valid coordinates.
+			if ( ! is_numeric( $lat ) || ! is_numeric( $lng ) || ( (float) $lat === 0.0 && (float) $lng === 0.0 ) ) {
+				continue;
+			}
+
+			$image_url = '';
+			$thumb_id  = get_post_thumbnail_id( $post->ID );
+			if ( $thumb_id ) {
+				$image = wp_get_attachment_image_src( $thumb_id, 'medium' );
+				if ( $image ) {
+					$image_url = $image[0];
+				}
+			}
+
+			// Resolve category from first assigned term.
+			$terms    = get_the_terms( $post->ID, 'poi_category' );
+			$category = array(
+				'slug'  => 'uncategorized',
+				'name'  => __( 'Point d\'intérêt', 'interactive-map-listings' ),
+				'color' => '#7F8C8D',
+			);
+
+			if ( $terms && ! is_wp_error( $terms ) ) {
+				$term      = $terms[0];
+				$color_key = isset( $slug_to_key[ $term->slug ] ) ? $slug_to_key[ $term->slug ] : null;
+				$color     = ( $color_key && isset( $settings[ $color_key ] ) )
+					? $settings[ $color_key ]
+					: ( isset( $defaults[ $color_key ] ) ? $defaults[ $color_key ] : '#7F8C8D' );
+
+				$category = array(
+					'slug'  => $term->slug,
+					'name'  => $term->name,
+					'color' => $color,
+				);
+			}
+
+			// Track distinct categories that have valid POIs.
+			if ( ! isset( $categories_used[ $category['slug'] ] ) ) {
+				$categories_used[ $category['slug'] ] = $category;
+			}
+
+			$pois[] = array(
+				'id'                => $post->ID,
+				'title'             => get_the_title( $post ),
+				'short_description' => (string) get_post_meta( $post->ID, '_iml_poi_short_description', true ),
+				'latitude'          => (float) $lat,
+				'longitude'         => (float) $lng,
+				'address'           => (string) get_post_meta( $post->ID, '_iml_poi_address', true ),
+				'external_link'     => (string) get_post_meta( $post->ID, '_iml_poi_external_link', true ),
+				'image_url'         => $image_url,
+				'category'          => $category,
+			);
+		}
+
+		return new WP_REST_Response( array(
+			'pois'       => $pois,
+			'categories' => array_values( $categories_used ),
 		), 200 );
 	}
 }

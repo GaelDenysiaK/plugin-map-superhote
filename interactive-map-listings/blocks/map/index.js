@@ -11,6 +11,7 @@
 	var ColorPicker = wp.components.ColorPicker;
 	var Button = wp.components.Button;
 	var Placeholder = wp.components.Placeholder;
+	var ToggleControl = wp.components.ToggleControl;
 
 	registerBlockType( 'interactive-map-listings/map', {
 		edit: function ( props ) {
@@ -61,6 +62,20 @@
 							),
 							initialOpen: true,
 						},
+						el( ToggleControl, {
+							label: __(
+								'Afficher les points d\'intérêt',
+								'interactive-map-listings'
+							),
+							checked: attributes.showPois !== false,
+							onChange: function ( val ) {
+								setAttributes( { showPois: val } );
+							},
+							help: __(
+								'Affiche les POI sur la carte avec une barre de filtres par catégorie.',
+								'interactive-map-listings'
+							),
+						} ),
 						el( RangeControl, {
 							label: __(
 								'Niveau de zoom',
